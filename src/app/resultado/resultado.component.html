@@ -1,0 +1,117 @@
+<br>
+<div *ngIf="entidade">
+
+  <h3 class="text-info mt-4">Segue o resultado da votação. As opções de cada pauta estão ordenadas do mais para o menos
+    votado</h3>
+
+  <h1><b><u>{{entidade.resultado.nome}}</u></b></h1>
+
+  <div [innerHTML]="entidade.resultado.descricao"></div>
+
+  <!-- <h2>{{entidade.resultado.descricao}}</h2> -->
+
+  <div class="table-responsive" style="background-color: white;">
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th class="p-0" colspan="3">Total de Participantes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="p-0">Geral</th>
+          <td class="p-0">{{entidade.participantes}}</td>
+          <td class="p-0">100%</td>
+        </tr>
+        <tr>
+          <th class="p-0">Votantes</th>
+          <td class="p-0">{{entidade.votantes}}</td>
+          <td class="p-0">{{(entidade.votantes / entidade.participantes) * 100 | number}}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-responsive" style="background-color: white;">
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th class="p-0" colspan="2">Período da Votação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="p-0">Início</th>
+          <td class="p-0">{{entidade.resultado.inicio | date: 'long' : 'pt-BR'}}</td>
+        </tr>
+        <tr>
+          <th class="p-0">Término</th>
+          <td class="p-0">{{entidade.resultado.termino | date: 'long' : 'pt-BR'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-responsive" style="background-color: white;">
+    <table class="table table-striped table-hover">
+      <ng-template ngFor let-pauta [ngForOf]="entidade.resultado.pautaLista" let-i="index">
+        <thead class="thead-dark">
+          <tr>
+            <th class="p-0"><b>{{i+1}}.</b></th>
+            <th class="p-0"><b>{{pauta.nome}}</b></th>
+            <th class="p-0" colspan="2">
+              <!-- {{pauta.descricao}} -->
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="p-0" colspan="4"><b>Votos Nulos:</b> {{pauta.nulos}}</td></tr>
+          <tr><td class="p-0" colspan="4"><b>Votos Em Branco:</b> {{pauta.brancos}}</td></tr>
+          <tr *ngFor="let opcao of pauta.opcaoLista; let j = index"
+            [class]="opcao.voto === 'S'? 'table-success' : opcao.voto === 'N' ? 'table-danger': ''">
+            <td class="p-0">{{i+1}}.{{j+1}}.</td>
+            <td class="p-0">{{opcao.nome}}</td>
+            <td class="p-0">
+              <div [innerHTML]="opcao.descricao"></div>
+              <!-- <pre>{{opcao.descricao}}</pre> -->
+            </td>
+            <td class="p-0">
+              <div class="table-responsive" style="background-color: white;">
+                <table class="table table-striped table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th class="p-0">Valor</th>
+                      <th class="p-0">Quantidade</th>
+                      <th class="p-0">Geral %</th>
+                      <th class="p-0">Votantes %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-success">
+                      <th class="p-0">Sim</th>
+                      <td class="p-0">{{opcao.valor.S}}</td>
+                      <td class="p-0">{{(opcao.valor.S / entidade.participantes) * 100 | number}} %</td>
+                      <td class="p-0">{{(opcao.valor.S / entidade.votantes) * 100 | number}} %</td>
+                    </tr>
+                    <tr class="" *ngIf="false">
+                      <th class="p-0">Em Branco</th>
+                      <td class="p-0">{{opcao.valor.branco}}</td>
+                      <td class="p-0">{{(opcao.valor.branco / entidade.participantes) * 100 | number}} %</td>
+                      <td class="p-0">{{(opcao.valor.branco / entidade.votantes) * 100 | number}} %</td>
+                    </tr>
+                    <tr class="table-danger" *ngIf="pauta.opcaoLista.length === 1">
+                      <th class="p-0">Não</th>
+                      <td class="p-0">{{opcao.valor.N}}</td>
+                      <td class="p-0">{{(opcao.valor.N / entidade.participantes) * 100 | number}} %</td>
+                      <td class="p-0">{{(opcao.valor.N / entidade.votantes) * 100 | number}} %</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </ng-template>
+    </table>
+  </div>
+</div>

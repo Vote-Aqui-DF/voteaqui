@@ -1,0 +1,27 @@
+<h3 mat-dialog-title class="modal-header">Confirmar</h3>
+
+<mat-dialog-content>
+  <div class="container">
+    <div [innerHTML]="data.mensagem"></div>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Senha Atual</mat-label>
+      <input matInput type="password" name="senha" [(ngModel)]="senhaAtual">
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Nova Senha</mat-label>
+      <input matInput type="password" name="senha" [(ngModel)]="senhaNova">
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-footer">
+  <button class="btn btn-secondary" (click)="cancelar($event)">Cancelar</button>
+  <button class="btn btn-primary" (click)="confirmar($event)">OK</button>
+</mat-dialog-actions>

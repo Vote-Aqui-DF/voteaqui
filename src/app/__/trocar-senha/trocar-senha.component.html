@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <span>
+                        <img src="assets/img/logo.png" style="width: 60px; height: 60px;">
+                    </span>
+                    <h5 class="card-title text-center">Trocar Senha</h5>
+                    <form class="form-signin" [formGroup]="frm" (ngSubmit)="enviar($event)">
+
+                        <div class="form-group">
+                            <mat-label>E-mail</mat-label>
+                            <div class="form-control">
+                                <b>{{frm.value.email}}</b>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <mat-label>Token</mat-label>
+                            <div class="form-control">
+                                <b>{{frm.value.token}}</b>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Nova Senha</mat-label>
+                                <input matInput [type]="escondeSenha ? 'password' : 'text'" placeholder="Digite nova senha" formControlName="senha">
+                                <mat-icon matSuffix (click)="escondeSenha = !escondeSenha">{{escondeSenha ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </mat-form-field>
+                            <div class="text-danger" *ngIf="isEnviado && frm.controls.senha.invalid">
+                                <div *ngIf="frm.controls.senha.errors.required">
+                                    Campo obrigatório!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Nova Senha (repetir)</mat-label>
+                                <input matInput [type]="escondeSenha ? 'password' : 'text'" placeholder="Repita a nova senha" formControlName="senhaRepetir">
+                                <mat-icon matSuffix (click)="escondeSenha = !escondeSenha">{{escondeSenha ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </mat-form-field>
+                            <div class="text-danger" *ngIf="isEnviado && frm.controls.senhaRepetir.invalid">
+                                <div *ngIf="frm.controls.senhaRepetir.errors.senhaNaoCoincidente">
+                                    Repetição de senha não coincidente!
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+                        <button type="submit" class="btn btn-success btn-block">Enviar</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+{
+	"codigo": "votacaoModelo",
+	"nome": "Votação de Teste Modelo",
+	"descricao": "Vamos testar o Vote Aqui",
+	"senha": "123",
+	"inicio": "2020-07-22T11:05",
+	"termino": "2020-07-25T00:00",
+	"pautaLista": [{
+		"codigo": "conselheiros",
+		"nome": "Conselheiros",
+		"descricao": "Novos Conselheiros da Associação",
+		"quantidadeEscolha": 3,
+		"opcaoLista": [{
+			"codigo": "conselheiro01",
+			"nome": "Samuel",
+			"descricao": "<table>\n\t<tr>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/samuel_rosa.jpg\">\n\t\t\t<p>Samuel Rosa</p>\n\t\t</td>\n\t</tr>\n</table>"
+		}, {
+			"codigo": "conselheiro02",
+			"nome": "Tarcila",
+			"descricao": "<table>\n\t<tr>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/tarsila_do_amaral.jpg\">\n\t\t\t<p>Tarsila Do Amaral</p>\n\t\t</td>\n\t</tr>\n</table>"
+		}, {
+			"codigo": "conselheiro03",
+			"nome": "Frejat",
+			"descricao": "<table>\n\t<tr>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/roberto_frejat.jpg\">\n\t\t\t<p>Roberto Frejat</p>\n\t\t</td>\n\t</tr>\n</table>"
+		}, {
+			"codigo": "conselheiro04",
+			"nome": "Rita",
+			"descricao": "<table>\n\t<tr>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/rita_lee.jpg\">\n\t\t\t<p>Rita Lee</p>\n\t\t</td>\n\t</tr>\n</table>"
+		}, {
+			"codigo": "conselheiro05",
+			"nome": "Vanessa",
+			"descricao": "<table>\n\t<tr>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/vanessa_da_mata.jpg\">\n\t\t\t<p>Vanessa da Mata</p>\n\t\t</td>\n\t</tr>\n</table>"
+		}]
+	}, {
+		"codigo": "diretoria",
+		"nome": "Diretoria",
+		"descricao": "Nova composição da Direção da Associação",
+		"quantidadeEscolha": 1,
+		"opcaoLista": [{
+			"codigo": "chapaNovaEsperanca",
+			"nome": "Chapa Nova Esperança",
+			"descricao": "<table>\n\t<tr>\n\t\t<td>\n\t\t\tPresidente\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/elis_regina.jpg\">\n\t\t\t<p>Elis Regina</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tVice-Presidente\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/frida_kahlo.jpg\">\n\t\t\t<p>Frida Kahlo</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria Administrativa\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/gene_simmons.jpg\">\n\t\t\t<p>Gene Simmons</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria Financeira\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/anthony_kiedis.jpg\">\n\t\t\t<p>Anthony Kiedes</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria de Cultura\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/djavan.jpg\">\n\t\t\t<p>Djavan</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria de Saúde\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/evaristo_conceicao.jpg\">\n\t\t\t<p>Evaristo Conceição </p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria de Esportes\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/alcione.jpg\">\n\t\t\t<p>Alcione</p>\n\t\t</td>\n\t</tr>\n\n</table>"
+		}, {
+			"codigo": "chapaVitoria",
+			"nome": "Chapa da Vitória",
+			"descricao": "<table>\n\t<tr>\n\t\t<td>\n\t\t\tPresidente\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/cora_coralina.jpg\">\n\t\t\t<p>Cora Coralina</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tVice-Presidente\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/antonieta_de_barros.jpg\">\n\t\t\t<p>Antonieta de Barros</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria Administrativa\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/gal_costa.jpg\">\n\t\t\t<p>Gal Costa</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria Financeira\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/grande_otelo.jpg\">\n\t\t\t<p>Grande Otelo</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria de Cultura\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/juscelino_kubitschek.jpg\">\n\t\t\t<p>Juscelino Kubitschek</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria de Saúde\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/renato_russo.jpg\">\n\t\t\t<p>Renato Russo</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>\n\t\t\tDiretoria de Esportes\n\t\t</td>\n\t\t<td>\n\t\t\t<img src=\"http://voteaqui.herokuapp.com/assets/foto/seu_jorge.jpg\">\n\t\t\t<p>Seu Jorge</p>\n\t\t</td>\n\t</tr>\n\n</table>"
+		}]
+	}, {
+		"codigo": "fiscal",
+		"nome": "Fiscal",
+		"descricao": "Fiscal das Contas da Associação",
+		"quantidadeEscolha": 1,
+		"opcaoLista": [{
+			"codigo": "teste",
+			"nome": "Votação Chapa Única",
+			"descricao": "Demonstrar quando é chapa única"
+		}]
+	}],
+	"participanteLista": [{
+		"identificacao": "123.456.789-00",
+		"nome": "José da Silva",
+		"telefone": "5561984433030",
+		"email": "joseSilva@gmail.com",
+		"senhaTentativa": 0,
+		"senhaBloqueio": null,
+		"senhaTotDesbloqueio": 0,
+		"votou": 0
+	}, {
+		"identificacao": "123.456.789-99",
+		"nome": "MariaPereira",
+		"telefone": "556199999999",
+		"email": "mariaPereira@hotmail.com",
+		"senhaTentativa": 0,
+		"senhaBloqueio": null,
+		"senhaTotDesbloqueio": 0,
+		"votou": 0
+	}, {
+		"identificacao": "999.111.999-11",
+		"nome": "Vladmir Horta",
+		"telefone": "556199998888",
+		"email": "zezezezeze@zezeze0000.opa",
+		"senhaTentativa": 0,
+		"senhaBloqueio": null,
+		"senhaTotDesbloqueio": 0,
+		"votou": 0
+	}]
+}

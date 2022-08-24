@@ -1,0 +1,14 @@
+<div class="container border border-light p-5">
+    <div class="bg-primary">
+        <p class="h4 text-center">{{formulario.nome}}</p>
+    </div>
+
+    <p class="text-center">
+        <a [routerLink]="['novo']">Novo</a> |
+        <a [routerLink]="['filtro']">Filtrar</a> |
+        <a [routerLink]="['./']">Listar</a>
+        <a href="#" (click)="excluir($event)" *ngIf="acao === 'Visualizar'"> | Excluir</a>
+    </p>
+
+    <router-outlet></router-outlet>
+</div>

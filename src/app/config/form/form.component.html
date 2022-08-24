@@ -1,0 +1,489 @@
+<!--
+/{{frm?.valid | json}}/
+/{{frm?.value | json}}/
+-->
+
+<form [formGroup]="frm" (submit)="enviar($event)" style="background-color: white;">
+
+  <h1 class="mt-5 text-info">Cadastro de Votação</h1>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" style="min-width: 50%;">
+      <mat-label>Código</mat-label>
+      <input matInput formControlName="codigo" [readonly]="frm.value.id">
+      <mat-error *ngIf="frm.controls.codigo.hasError('required')">
+        Campo obrigatório!
+      </mat-error>
+      <mat-error *ngIf="frm.controls.codigo.hasError('pattern')">
+        Somente letras não acentuadas, números ou o caractere '_'!
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" style="min-width: 50%;">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome">
+      <mat-error *ngIf="frm.controls.nome.hasError('required')">
+        Campo obrigatório!
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput mat-autosize formControlName="descricao"></textarea>
+      <mat-error *ngIf="frm.controls.descricao.hasError('required')">
+        Campo obrigatório!
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Início</mat-label>
+      <input matInput type="datetime-local" formControlName="inicio" [min]="agora()">
+      <mat-error *ngIf="frm.controls.inicio.hasError('required')">
+        Campo obrigatório!
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Término</mat-label>
+      <input matInput type="datetime-local" formControlName="termino" [min]="agora()">
+      <mat-error *ngIf="frm.controls.termino.hasError('required')">
+        Campo obrigatório!
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" *ngIf="!frm.value.id">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" formControlName="senha">
+      <mat-error *ngIf="frm.controls.senha.hasError('required')">
+        Campo obrigatório!
+      </mat-error>
+    </mat-form-field>
+    <button type="button" class="btn btn-primary" *ngIf="frm.value.id" (click)="alterarSenha()">Alterar Senha</button>
+  </div>
+
+  <h2 class="mt-5 text-info">Pautas</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover" style="width: 100%;"
+      *ngIf="getLista(frm, 'pautaLista').controls.length" formArrayName="pautaLista">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Código</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Quantidade Escolhida</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-pauta [ngForOf]="getLista(frm, 'pautaLista').controls" let-i="index">
+          <tr [formGroupName]="i">
+            <th>
+              {{i+1}}.
+            </th>
+            <td>
+              <label *ngIf="!pauta['editando']">{{pauta.value.codigo}}</label>
+              <div class="form-group" *ngIf="pauta['editando']">
+                <mat-form-field appearance="fill">
+                  <mat-label>Código</mat-label>
+                  <input matInput formControlName="codigo" [readonly]="pauta.value.id">
+                  <mat-error *ngIf="pauta.controls.codigo.hasError('required')">
+                    Campo obrigatório!
+                  </mat-error>
+                  <mat-error *ngIf="pauta.controls.codigo.hasError('pattern')">
+                    Somente letras não acentuadas, números ou o caractere '_'!
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </td>
+            <td>
+              <label *ngIf="!pauta['editando']">{{pauta.value.nome}}</label>
+              <div class="form-group" *ngIf="pauta['editando']">
+                <mat-form-field appearance="fill">
+                  <mat-label>Nome</mat-label>
+                  <input matInput formControlName="nome">
+                  <mat-error *ngIf="pauta.controls.nome.hasError('required')">
+                    Campo obrigatório!
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </td>
+            <td>
+              <label *ngIf="!pauta['editando']">
+                <div [innerHTML]="pauta.value.descricao"></div>
+              </label>
+              <div class="form-group" *ngIf="pauta['editando']">
+                <mat-form-field appearance="fill">
+                  <mat-label>Descrição</mat-label>
+                  <textarea matInput mat-autosize formControlName="descricao"></textarea>
+                  <mat-error *ngIf="pauta.controls.descricao.hasError('required')">
+                    Campo obrigatório!
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </td>
+            <td>
+              <label *ngIf="!pauta['editando']">{{pauta.value.quantidadeEscolha}}</label>
+              <div class="form-group" *ngIf="pauta['editando']">
+                <mat-form-field appearance="fill">
+                  <mat-label>Quantidade de Escolhas</mat-label>
+                  <input matInput type="number" formControlName="quantidadeEscolha">
+                  <mat-error *ngIf="pauta.controls.quantidadeEscolha.hasError('required')">
+                    Campo obrigatório!
+                  </mat-error>
+                  <mat-error *ngIf="pauta.controls.quantidadeEscolha.hasError('min')">
+                    Valor mínimo é 1!
+                  </mat-error>
+                  <mat-error *ngIf="pauta.controls.quantidadeEscolha.hasError('max')">
+                    Valor máximo é 20!
+                  </mat-error>
+                  <mat-error *ngIf="pauta.controls.quantidadeEscolha.hasError('pattern')">
+                    Somente números!
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="!pauta['editando']">
+                <button type="button" mat-button class="btn btn-secondary btn-sm"
+                  (click)="pautaEditar(pauta)">Editar</button>
+                <button type="button" mat-button class="btn btn-secondary btn-sm"
+                  (click)="pautaExcluir(frm, i)">Excluir</button>
+              </div>
+              <div *ngIf="pauta['editando']">
+                <button type="button" mat-button class="btn btn-secondary btn-sm"
+                  (click)="pautaSalvar(pauta)">salvar</button>
+              </div>
+            </td>
+          </tr>
+          <tr [formGroupName]="i">
+            <td>&nbsp;</td>
+            <td colspan="5">
+              <h3 class="mt-5 text-info">Opções</h3>
+              <div class="table-responsive">
+                <table class="table table-striped table-hover" style="width: 100%;"
+                  *ngIf="getLista(pauta, 'opcaoLista').controls.length">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>#</th>
+                      <th>Código</th>
+                      <th>Nome</th>
+                      <th>Descrição</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody formArrayName="opcaoLista">
+                    <tr *ngFor="let opcao of getLista(pauta, 'opcaoLista').controls; let j = index" [formGroupName]="j">
+                      <td>
+                        {{j+1}}.
+                      </td>
+                      <td>
+                        <label *ngIf="!opcao['editando']">{{opcao.value.codigo}}</label>
+                        <div class="form-group" *ngIf="opcao['editando']">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Código</mat-label>
+                            <input matInput formControlName="codigo" [readonly]="opcao.value.id">
+                            <mat-error *ngIf="opcao.controls.codigo.hasError('required')">
+                              Campo obrigatório!
+                            </mat-error>
+                            <mat-error *ngIf="opcao.controls.codigo.hasError('pattern')">
+                              Somente letras não acentuadas, números ou o caractere '_'!
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </td>
+                      <td>
+                        <label *ngIf="!opcao['editando']">{{opcao.value.nome}}</label>
+                        <div class="form-group" *ngIf="opcao['editando']">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Nome</mat-label>
+                            <input matInput formControlName="nome">
+                            <mat-error *ngIf="opcao.controls.nome.hasError('required')">
+                              Campo obrigatório!
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </td>
+                      <td>
+                        <label *ngIf="!opcao['editando']">
+                          <div [innerHTML]="opcao.value.descricao"></div>
+                        </label>
+                        <div class="form-group" *ngIf="opcao['editando']">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Descrição</mat-label>
+                            <textarea matInput mat-autosize formControlName="descricao"></textarea>
+                            <mat-error *ngIf="opcao.controls.descricao.hasError('required')">
+                              Campo obrigatório!
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <div *ngIf="!opcao['editando']">
+                            <button type="button" mat-button class="btn btn-secondary btn-sm"
+                              (click)="opcaoEditar(opcao)">Editar</button>
+                            <button type="button" mat-button class="btn btn-secondary btn-sm"
+                              (click)="opcaoExcluir(pauta, j)">Excluir</button>
+                          </div>
+                          <div *ngIf="opcao['editando']">
+                            <button type="button" mat-button class="btn btn-secondary btn-sm"
+                              (click)="opcaoSalvar(opcao)">salvar</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="alert alert-danger" *ngIf="pauta.controls.opcaoLista.hasError('required')">
+                Informe pelo menos um registro!
+              </div>
+              <button type="button" mat-button class="btn btn-secondary btn-sm btn-block"
+                (click)="opcaoIncluir(pauta)">
+                Incluir Opção
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-danger" *ngIf="frm.controls.pautaLista.hasError('required')">
+    Informe pelo menos um registro!
+  </div>
+  <button type="button" mat-button class="btn btn-secondary btn-sm btn-block" (click)="pautaIncluir(frm)">
+    Incluir Pauta
+  </button>
+
+  <h2 class="mt-5 text-info">Participantes</h2>
+  <div class="sticky-top" style="background-color: bisque;">
+    <input type="file" class="btn btn-secondary btn-sm" (change)="lerArquivo($event)">
+    <button type="button" mat-button class="btn btn-secondary btn-sm" (click)="enviarMensagem('whatsapp')"
+      *ngIf="totalSelecao()">
+      WhatsApp <img src="assets/whatsapp.png" style="width: 40px; height: 30px;">
+    </button>
+    <button type="button" mat-button class="btn btn-secondary btn-sm" (click)="enviarMensagem('email')"
+      *ngIf="totalSelecao()">
+      E-mail <img src="assets/email.png" style="width: 20px; height: 15px;">
+    </button>
+    <button type="button" mat-button class="btn btn-secondary btn-sm" (click)="enviarMensagem('sms')"
+      *ngIf="totalSelecao()">
+      SMS <img src="assets/sms.jpg" style="width: 20px; height: 15px;">
+    </button>
+
+    <div class="d-sm-flex justify-content-between border border-secondary">
+      <div style="font-size:70%">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" [(ngModel)]="filtro" [ngModelOptions]="{standalone: true}" id="filtroT" name="filtro"
+            class="custom-control-input" value="">
+          <label class="custom-control-label" for="filtroT">Todos</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" [(ngModel)]="filtro" [ngModelOptions]="{standalone: true}" id="filtroF" name="filtro"
+            class="custom-control-input" value="V">
+          <label class="custom-control-label" for="filtroF">Já votaram</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" [(ngModel)]="filtro" [ngModelOptions]="{standalone: true}" id="filtroE" name="filtro"
+            class="custom-control-input" value="N">
+          <label class="custom-control-label" for="filtroE">Não votaram</label>
+        </div>
+        <div>
+          Exibindo: {{(getLista(frm, 'participanteLista').controls | callback: filtrar: [filtro, filtroTexto]).length}}
+          de
+          {{(getLista(frm, 'participanteLista').controls).length}} registro(s) =
+          {{((getLista(frm, 'participanteLista').controls | callback: filtrar: [filtro, filtroTexto]).length / (getLista(frm, 'participanteLista').controls).length) * 100 | number}}%
+        </div>
+        <div class="p-2 m-2">
+          <label>Qtd. Seleção</label>
+          <input matInput [(ngModel)]="qtdSelecao" [ngModelOptions]="{standalone: true}" name="qtdSelecao"
+            style="width: 20px;">
+          <mat-checkbox [(ngModel)]="comTelefoneSelecao" [ngModelOptions]="{standalone: true}" color="primary"
+            [name]="comTelefoneSelecao">com telefone</mat-checkbox>
+          <mat-checkbox [(ngModel)]="comEmailSelecao" [ngModelOptions]="{standalone: true}" color="primary"
+            [name]="comEmailSelecao">com e-mail</mat-checkbox>
+          <label *ngIf="selecaoIni >= 0 && selecaoFim >= 0">
+            Ultima Selecao {{selecaoIni}} - {{selecaoFim}}
+          </label>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="filtro===''">
+        <mat-form-field appearance="fill">
+          <mat-label>Pesquisar</mat-label>
+          <input matInput [(ngModel)]="filtroTexto" [ngModelOptions]="{standalone: true}" name="filtroTexto">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" mat-button class="btn btn-secondary btn-sm" (click)="formataTelefone()">Formatar
+    Telefone</button>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover" style="width: 100%;"
+      *ngIf="(getLista(frm, 'participanteLista').controls | callback: filtrar: [filtro, filtroTexto]).length">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>
+            <mat-checkbox (click)="seleciona($event)" [(ngModel)]="selecionaTodos" [ngModelOptions]="{standalone: true}"
+              name="selecionaTodos" color="primary">Todos / Nenhum</mat-checkbox>
+          </th>
+          <th>Identificação</th>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>E-mail</th>
+          <th>Votou</th>
+          <th>Bloqueio</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody formArrayName="participanteLista">
+        <tr
+          *ngFor="let participante of getLista(frm, 'participanteLista').controls | callback: filtrar: [filtro, filtroTexto]; let i = index"
+          [formGroupName]="i" [class]="participante.value.senhaTentativa >= 5 ? 'table-danger': ''">
+          <td>
+            {{i+1}}.
+            <div class="alert alert-success" *ngIf="participante.valid">
+              Válido!
+            </div>
+            <div class="alert alert-warning" *ngIf="participante.dirty">
+              Modificado!
+            </div>
+            <div class="alert alert-danger" *ngIf="participante.invalid">
+              Erro: Inválido!
+            </div>
+          </td>
+          <td>
+            <mat-checkbox [(ngModel)]="participante.value.selecao" [ngModelOptions]="{standalone: true}" color="primary"
+              [name]="'seleciona' + i"></mat-checkbox>
+            <button mat-mini-fab color="primary" class="m-2" type="button" aria-label="Selecionar"
+              (click)="selecionarRegs($event, participante)">
+              +{{qtdSelecao}}
+            </button>
+          </td>
+          <td>
+            <label *ngIf="!participante['editando']">
+              {{participante.value.identificacao}}
+              <div class="alert alert-danger" *ngIf="participante.controls.identificacao.hasError('required')">
+                Erro: Campo obrigatório!
+              </div>
+              <div class="alert alert-danger" *ngIf="participante.controls.identificacao.hasError('pattern')">
+                Erro: Somente números e sem zeros no início!
+              </div>
+            </label>
+            <div class="form-group" *ngIf="participante['editando']">
+              <mat-form-field appearance="fill">
+                <mat-label>Identificação</mat-label>
+                <input matInput formControlName="identificacao">
+                <mat-error *ngIf="participante.controls.identificacao.hasError('required')">
+                  Erro: Campo obrigatório!
+                </mat-error>
+                <mat-error *ngIf="participante.controls.identificacao.hasError('pattern')">
+                  Erro: Somente números e sem zeros no início! Permitido X no final.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </td>
+          <td>
+            <label *ngIf="!participante['editando']">
+              {{participante.value.nome}}
+              <div class="alert alert-danger" *ngIf="participante.controls.nome.hasError('required')">
+                Erro: Campo obrigatório!
+              </div>
+            </label>
+            <div class="form-group" *ngIf="participante['editando']">
+              <mat-form-field appearance="fill">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="nome">
+                <mat-error *ngIf="participante.controls.nome.hasError('required')">
+                  Erro: Campo obrigatório!
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </td>
+          <td>
+            <label *ngIf="!participante['editando']">
+              {{participante.value.telefone}}
+              <div class="alert alert-danger" *ngIf="participante.controls.telefone.hasError('pattern')">
+                Erro: Somente números e sem zeros no início!
+              </div>
+            </label>
+            <div class="form-group" *ngIf="participante['editando']">
+              <mat-form-field appearance="fill">
+                <mat-label>Telefone</mat-label>
+                <input matInput formControlName="telefone">
+                <mat-error *ngIf="participante.controls.telefone.hasError('pattern')">
+                  Erro: Somente números e sem zeros no início!
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </td>
+          <td>
+            <label *ngIf="!participante['editando']">
+              {{participante.value.email}}
+              <div class="alert alert-danger" *ngIf="participante.controls.email.hasError('email')">
+                Erro: Valor inválido!
+              </div>
+            </label>
+            <div class="form-group" *ngIf="participante['editando']">
+              <mat-form-field appearance="fill">
+                <mat-label>E-mail</mat-label>
+                <input matInput formControlName="email">
+                <mat-error *ngIf="participante.controls.email.hasError('email')">
+                  Erro: Valor inválido!
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </td>
+          <td>
+            <mat-checkbox [checked]="participante.value.votou" [disabled]="true"></mat-checkbox>
+          </td>
+          <td style="font-size: 70%;">
+            <div>Tentativas {{participante.value.senhaTentativa}},</div>
+            <div>Tempo desbloqueio {{participante.value.senhaBloqueio}},</div>
+            <div>Tot. Desbloqueio {{participante.value.senhaTotDesbloqueio}}</div>
+            <button type="button" class="btn btn-primary" *ngIf="participante.value.senhaTentativa >= 5"
+              (click)="desbloquear(participante.value.id)">Desbloquear</button>
+          </td>
+          <td>
+            <div>
+              <div *ngIf="!participante['editando']">
+                <button type="button" mat-button class="btn btn-secondary btn-sm"
+                  (click)="participanteEditar(participante)">Editar</button>
+                <button type="button" mat-button class="btn btn-secondary btn-sm"
+                  (click)="participanteExcluir(participante)">Excluir</button>
+              </div>
+              <div *ngIf="participante['editando']">
+                <button type="button" mat-button class="btn btn-secondary btn-sm"
+                  (click)="participanteSalvar(participante)">salvar</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-danger" *ngIf="frm.controls.participanteLista.hasError('required')">
+    Informe pelo menos um registro!
+  </div>
+  <button type="button" mat-button class="btn btn-secondary btn-sm btn-block" (click)="participanteIncluir(frm)">Incluir
+    Participante
+  </button>
+
+  <div class="text-right footer navbar-fixed-bottom p-4">
+    <button type="submit" mat-button class="btn btn-primary btn-block">Salvar</button>
+  </div>
+
+</form>

@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <span>
+                        <img src="assets/img/logo.png" style="width: 60px; height: 60px;">
+                    </span>
+                    <h5 class="card-title text-center">Login</h5>
+                    <form class="form-signin" [formGroup]="frm" (ngSubmit)="enviar($event)">
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Usuário</mat-label>
+                                <input matInput placeholder="Nome do Usuário" formControlName="login" #recebeFoco>
+                            </mat-form-field>
+                            <div class="text-danger" *ngIf="isEnviado && frm.controls.login.invalid">
+                                <div *ngIf="frm.controls.login.errors.required">
+                                    Campo obrigatório!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Senha</mat-label>
+                                <input matInput [type]="escondeSenha ? 'password' : 'text'" placeholder="Senha de Acesso" formControlName="senha">
+                                <mat-icon matSuffix (click)="escondeSenha = !escondeSenha">{{escondeSenha ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </mat-form-field>
+                            <div class="text-danger" *ngIf="isEnviado && frm.controls.senha.invalid">
+                                <div *ngIf="frm.controls.senha.errors.required">
+                                    Campo obrigatório!
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+                        <button type="submit" class="btn btn-success btn-block">Enviar</button>
+
+                        <hr class="my-4">
+                        <div class="custom-control mb-3">
+                            <label>
+                                <a [routerLink]="['/recuperar-senha']">Esqueci minha senha</a>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

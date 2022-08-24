@@ -1,0 +1,56 @@
+<p class="h5 mb-4 text-left">Listagem</p>
+
+<div *ngIf="!dataSource?.data?.length">
+  <div class="alert alert-warning" role="alert">
+    ATENÇÃO!!! Não foi encontrado nenhum registro
+  </div>
+  <p>Deseja inserir um <a [routerLink]="['novo']">novo registro</a>?</p>
+</div>
+
+<div *ngIf="dataSource?.data?.length">
+  <mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="aplicarFiltro($event)" placeholder="filtro">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 example-container">
+
+    <ng-container matColumnDef="nome" sticky>
+      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let el"> <a [routerLink]="[el.id]">{{el.nome}}</a> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="vinculo">
+      <th mat-header-cell *matHeaderCellDef> Vínculo </th>
+      <td mat-cell *matCellDef="let el"> {{exibeVinculo(el)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pessoaTipo">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let el"> <a [routerLink]="[el.id]">{{exibePessoaTipo(el.pessoaTipo)}}</a> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cpfCnpj">
+      <th mat-header-cell *matHeaderCellDef> CPF/CNPJ </th>
+      <td mat-cell *matCellDef="let el"> {{el.cpfCnpj}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> E-mail </th>
+      <td mat-cell *matCellDef="let el">
+        <a href="mailto:{{el.email}}">{{el.email}}</a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="headElements; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: headElements;"></tr>
+
+  </table>
+</div>
+
+<div class="alert alert-warning mt-5" role="alert" *ngIf="!prod">
+  <p><b>prod: {{prod}}</b></p>
+  <div>vl
+      <pre [innerHTML]="dataSource?.data | jsonFormat"></pre>
+  </div>
+</div>

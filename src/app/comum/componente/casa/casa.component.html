@@ -1,0 +1,26 @@
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <img src="./assets/img/tema.jpeg" style="width: 75%">
+            </div>
+            <div class="col-8">
+                <h1 class="display-4">Laço de Amor!</h1>
+                <p class="lead">Nada torna um rosto <b>mais saudável</b> que a <b>máscara da bondade</b>.</p>
+                <hr class="my-4">
+                <h5><b>Adquira sua máscara.</b></h5>
+                <p>Se cuidar também é um ato de amor.</p>
+                <p>Se proteja e proteja quem você ama.</p>
+                <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [noWrap]="noWrap"
+                    [interval]="cycleInterval" [startFromIndex]="0">
+                    <slide *ngFor="let slide of slides; let index=index" class="mx-auto text-warning text-center">
+                        <img [src]="adMime(slide.foto)" class="center-block img-thumbnail rounded" style="max-width: 200px; max-height: 200px;">
+                        <div class="carousel-caption">
+                            <!-- <h4>{{index}}</h4> -->
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+        </div>
+    </div>
+</div>

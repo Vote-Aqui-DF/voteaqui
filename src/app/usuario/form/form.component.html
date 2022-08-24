@@ -1,0 +1,130 @@
+<form class="text-left" [formGroup]="frm" (ngSubmit)="enviar($event)">
+
+  <div class="form-group">
+      <div class="form-group">
+          <mat-form-field appearance="outline" style="width:60% !important">
+              <mat-label>Pessoa</mat-label>
+              <input type="text" matInput placeholder="Pesquisar Pessoa" formControlName="pessoa"
+                  [matAutocomplete]="autoPessoa" (keyup)="completarPessoa($event)"
+                  (blur)="sugereLogin(frm.value)">
+              <mat-autocomplete autoActiveFirstOption #autoPessoa="matAutocomplete" [displayWith]="displayFnPessoa">
+                  <mat-option *ngFor="let option of $filteredOptionsPessoa | async" [value]="option">
+                      {{option.nome}} ({{option.cpfCnpj}})
+                  </mat-option>
+              </mat-autocomplete>
+              <button type="button" mat-icon-button matSuffix (click)="pessoaDisponivel($event, frm.value.pessoa.id, frm.value.id)"
+                  *ngIf="frm.value.pessoa && frm.controls.pessoa.valid">
+                  <mat-icon>check</mat-icon>
+              </button>
+          </mat-form-field>
+      </div>
+      <div class="text-danger" *ngIf="isEnviado && frm.controls.pessoa.invalid">
+          <div *ngIf="frm.controls.pessoa.errors?.required">
+              Campo obrigatório!
+          </div>
+          <div *ngIf="frm['controls'].pessoa.errors.pessoaNotValid">
+              Valor inválido!
+          </div>
+      </div>
+  </div>
+
+  <div class="form-group">
+      <mat-form-field appearance="outline">
+          <mat-label>Login</mat-label>
+          <input matInput placeholder="Login do Usuario" formControlName="login">
+          <button type="button" mat-icon-button matSuffix (click)="loginDisponivel($event, frm.value.login, frm.value.id)"
+              *ngIf="frm.value.login && frm.controls.login.valid">
+              <mat-icon>check</mat-icon>
+          </button>
+      </mat-form-field>
+      <div class="text-danger" *ngIf="isEnviado && frm['controls'].login.invalid">
+          <div *ngIf="frm['controls'].login.errors.required">
+              Campo obrigatório!
+          </div>
+          <div *ngIf="frm['controls'].login.errors.pattern">
+              Valor inválido! Mínimo um caracter constituído com letras minúsculas, números, '_' ou '.'
+          </div>
+      </div>
+  </div>
+
+  <div class="form-group">
+      <mat-form-field appearance="outline" style="width:60% !important">
+          <mat-label>E-mail</mat-label>
+          <input matInput placeholder="E-mail da Usuario" formControlName="email">
+          <button type="button" mat-icon-button matSuffix (click)="emailDisponivel($event, frm.value.email, frm.value.id)"
+              *ngIf="frm.value.email && frm.controls.email.valid">
+              <mat-icon>check</mat-icon>
+          </button>
+      </mat-form-field>
+      <div class="text-danger" *ngIf="isEnviado && frm['controls'].email.invalid">
+          <div *ngIf="frm['controls'].email.errors.required">
+              Campo obrigatório!
+          </div>
+          <div *ngIf="frm['controls'].email.errors.email">
+              E-mail inválido!
+          </div>
+      </div>
+  </div>
+
+  <div class="form-group">
+      <label for="foto">Foto:</label>
+      <div class="row">
+          <div class="col">
+              <button type="button" class="btn btn-primary m-2" (click)="carregarFoto($event)">Carregar</button>
+              <button type="button" class="btn btn-primary m-2" (click)="limparFoto($event)">Limpar</button>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <img alt="Foto" id="foto" [src]="frm.value.foto ? adMime(frm.value.foto) : SEM_IMAGEM"
+                  class="img-fluid">
+          </div>
+      </div>
+  </div>
+
+  <div class="form-group">
+      <mat-label>Perfil:</mat-label>
+      <ul class="list-group">
+          <li class="list-group-item list-group-item-action">
+              <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="administrador">
+                  Administrador
+              </mat-checkbox>
+          </li>
+          <li class="list-group-item list-group-item-action">
+              <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="parceiro">
+                  Parceiro
+              </mat-checkbox>
+          </li>
+          <li class="list-group-item list-group-item-action">
+              <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente">
+                  Cliente
+              </mat-checkbox>
+          </li>
+      </ul>
+      <div class="text-danger" *ngIf="isEnviado && frm['controls'].perfil.invalid">
+          <div *ngIf="frm['controls'].perfil.errors.required">
+              Campo obrigatório!
+          </div>
+      </div>
+  </div>
+
+  <div class="form-group">
+      <mat-label>Ativo:</mat-label>
+      <mat-radio-group formControlName="ativo" aria-label="Selecione uma Opção">
+          <ul class="list-group">
+              <li *ngFor="let e of confirmacaoList" class="list-group-item list-group-item-action">
+                  <mat-radio-button value="{{e.chave}}">{{e.valor}}</mat-radio-button>
+              </li>
+          </ul>
+      </mat-radio-group>
+      <div class="text-danger" *ngIf="isEnviado && frm['controls'].ativo.invalid">
+          <div *ngIf="frm['controls'].ativo.errors.required">
+              Campo obrigatório!
+          </div>
+      </div>
+  </div>
+
+  <button type="submit" class="btn btn-success btn-block">Enviar</button>
+
+</form>
+

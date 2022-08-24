@@ -1,0 +1,123 @@
+<br>
+<div *ngIf="entidade">
+
+  <p>Olá <b>{{entidade.participante.nome}}</b>.</p>
+
+  <h3 class="text-info mt-4">Este é o seu Painel de Votações</h3>
+
+  <p class="text-justify">Aqui, além de votar, você pode acompanhar votações em andamento, conferir resultados de
+    votações
+    encerradas e ver quais votações futuras estarão disponíveis em breve.</p>
+
+  <p class="text-justify">A seguir, veja o quadro de votações.</p>
+
+  <p class="text-justify">Utilize o filtro para selecionar votações pelo estado atual em que se encontram. Como já
+    mencionado, há votações futuras, em
+    andamento e encerradas. Verifique abaixo qual
+    destas opções deseja consultar.</p>
+
+  <p class="text-justify"> Também é possível pesquisar votações por nome. Para isso, selecione o filtro "Todas" e
+    escreva
+    no campo "Pesquisar"
+    o nome da votação desejada.</p>
+
+  <p>Filtro: <small>
+      ({{(entidade.votacaoLista | callback: filtrarVotacao: [filtro, filtroTexto])?.length}})
+      registro(s)
+      encontrado(s)
+    </small>
+  </p>
+
+  <div class="d-sm-flex justify-content-between border border-secondary">
+    <div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" [(ngModel)]="filtro" id="filtroT" name="filtro" class="custom-control-input" value="">
+        <label class="custom-control-label" for="filtroT">Todas</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" [(ngModel)]="filtro" id="filtroF" name="filtro" class="custom-control-input" value="F">
+        <label class="custom-control-label" for="filtroF">
+          <span class="badge badge-info">{{situacaoNome('F')}}</span>
+        </label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" [(ngModel)]="filtro" id="filtroE" name="filtro" class="custom-control-input" value="E">
+        <label class="custom-control-label" for="filtroE">
+          <span class="badge badge-success">{{situacaoNome('E')}}</span>
+        </label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" [(ngModel)]="filtro" id="filtroX" name="filtro" class="custom-control-input" value="X">
+        <label class="custom-control-label" for="filtroX">
+          <span class="badge badge-secondary">{{situacaoNome('X')}}</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="filtro===''">
+      <mat-form-field appearance="fill">
+        <mat-label>Pesquisar</mat-label>
+        <input matInput [(ngModel)]="filtroTexto" name="filtroTexto">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="alert alert-warning"
+    *ngIf="!(entidade.votacaoLista | callback: filtrarVotacao: [filtro, filtroTexto])?.length">
+    <b>Atenção!</b> Nenhum registro localizado. Verifique o filtro informado.
+  </div>
+
+  <div class="table-responsive" style="background-color: white;"
+    *ngIf="(entidade.votacaoLista | callback: filtrarVotacao: [filtro, filtroTexto])?.length">
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Início</th>
+          <th>Término</th>
+          <th>Situação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-vot [ngForOf]="entidade.votacaoLista | callback: filtrarVotacao: [filtro, filtroTexto]" let-i="index">
+          <tr>
+            <td>{{i + 1}}.</td>
+            <td>
+              {{vot.nome}}
+            </td>
+            <td>{{vot.inicio | date : 'dd/MM/yyyy HH:mm' : 'GMT-3:00'}}</td>
+            <td>{{vot.termino | date : 'dd/MM/yyyy HH:mm' : 'GMT-3:00'}}</td>
+            <td>
+              <span class="badge badge-info" *ngIf="vot.situacao === 'F'">{{situacaoNome(vot.situacao)}}</span>
+              <span class="badge badge-success" *ngIf="vot.situacao === 'E'">{{situacaoNome(vot.situacao)}}</span>
+              <span class="badge badge-secondary" *ngIf="vot.situacao === 'X'">{{situacaoNome(vot.situacao)}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td colspan="4">
+                <div class="alert alert-info" *ngIf="vot.situacao === 'F'">
+                  Ainda não começou. Aguarde ...
+                </div>
+                <div class="alert alert-success" *ngIf="vot.votou && vot.situacao === 'E'">
+                  O seu voto já foi registrado! Após o término da votação o resultado estará disponível aqui
+                </div>
+                <button type="button" class="btn btn-success btn-block"
+                  *ngIf="!vot.votou && vot.situacao === 'E' && !vot.senhaBloqueio" [routerLink]="[vot.id]">
+                  Votar
+                </button>
+                <div class="alert alert-danger" *ngIf="!vot.votou && vot.situacao === 'E' && vot.senhaBloqueio">
+                  Senha Bloqueada
+                </div>
+                <button type="button" class="btn btn-secondary btn-block" *ngIf="vot.situacao === 'X'"
+                  [routerLink]="['../', 'resultado', vot.id]">
+                  Ver Resultado
+                </button>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- /{{entidade.votacaoLista | json}}/ -->

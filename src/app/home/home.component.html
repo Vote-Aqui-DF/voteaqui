@@ -1,0 +1,20 @@
+<h1 class="mt-5 text-info">Identificação de Participante</h1>
+
+<p>Informe a sua identificação e clique no botão "Pesquisar"</p>
+
+<form [formGroup]="frm">
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Identificacao</mat-label>
+      <input matInput formControlName="identificacao">
+      <mat-error *ngIf="frm.controls.identificacao.hasError('required')">
+        Campo obrigatório!
+      </mat-error>
+      <mat-error *ngIf="frm.controls.identificacao.hasError('pattern')">
+        Informe somente números e sem zeros no início! Permitido X no final.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</form>
+
+<button mat-button class="btn btn-primary" (click)="pesquisar()">Pesquisar</button>

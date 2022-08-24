@@ -1,0 +1,33 @@
+<h3 mat-dialog-title class="modal-header">Anexar</h3>
+
+<mat-dialog-content>
+    <div class="container">
+        <div class="row" *ngIf="exibirAnexarTipo('DOCUMENTO')">
+            <div class="col-2">Documento</div>
+            <div class="col-10"></div>
+        </div>
+        <div class="row" *ngIf="exibirAnexarTipo('IMAGEM')">
+            <div class="col-2">Imagem</div>
+            <div class="col-10">
+                <app-imagem [multiplo]="data.multiplo" (resultado)="setImagem($event)"></app-imagem>
+            </div>
+        </div>
+        <div class="row" *ngIf="exibirAnexarTipo('LOCALIZACAO')">
+            <div class="col-2">Localização</div>
+            <div class="col-10"></div>
+        </div>
+        <div class="row" *ngIf="exibirAnexarTipo('SOM')">
+            <div class="col-2">Som</div>
+            <div class="col-10"></div>
+        </div>
+        <div class="row" *ngIf="exibirAnexarTipo('VIDEO')">
+            <div class="col-2">Vídeo</div>
+            <div class="col-10"></div>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-footer">
+    <button mat-dialog-close class="btn btn-secondary">Cancelar</button>
+    <button class="btn btn-primary" (click)="confirmar($event)">Salvar</button>
+</mat-dialog-actions>

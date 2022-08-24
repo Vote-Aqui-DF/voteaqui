@@ -1,0 +1,85 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <button mat-icon-button [routerLink]="['/']">
+            <i class="fas fa-user"></i>
+            <span class="caret"></span>
+            <mat-icon>home</mat-icon>
+        </button>
+
+        <button mat-button [matMenuTriggerFor]="cadastroMenu" *ngIf="estaLogado && temPerfil(['Admin'])">
+            Cadastro
+        </button>
+        <mat-menu #cadastroMenu="matMenu">
+            <button mat-menu-item>
+                <a [routerLink]="['/', 'cadastro', 'pessoa']">
+                    Pessoas
+                </a>
+            </button>
+            <button mat-menu-item>
+                <a [routerLink]="['/', 'cadastro', 'produto-modelo']">
+                    Modelo de Produtos
+                </a>
+            </button>
+            <button mat-menu-item>
+                <a [routerLink]="['/', 'cadastro', 'usuario']">
+                    Usuário
+                </a>
+            </button>
+        </mat-menu>
+
+        <button mat-button [matMenuTriggerFor]="acoesMenu" *ngIf="estaLogado && temPerfil(['Admin', 'Parceiro'])">
+            Ações
+        </button>
+        <mat-menu #acoesMenu="matMenu">
+            <button mat-menu-item *ngIf="temPerfil(['Admin'])">
+                <a [routerLink]="['/', 'acao', 'cotar']">
+                    Cotar Matéria-Prima
+                </a>
+            </button>
+            <button mat-menu-item *ngIf="temPerfil(['Admin'])">
+                <a [routerLink]="['/', 'acao', 'comprar']">
+                    Comprar Matéria-Prima
+                </a>
+            </button>
+            <button mat-menu-item *ngIf="temPerfil(['Admin', 'Parceiro'])">
+                <a [routerLink]="['/', 'acao', 'utilizar']">
+                    Utilizar Matéria-Prima
+                </a>
+            </button>
+            <button mat-menu-item *ngIf="temPerfil(['Admin', 'Parceiro'])">
+                <a [routerLink]="['/', 'acao', 'produzir']">
+                    Produzir Itens
+                </a>
+            </button>
+            <button mat-menu-item *ngIf="temPerfil(['Admin'])">
+                <a [routerLink]="['/', 'acao', 'vender']">
+                    Vender Itens
+                </a>
+            </button>
+        </mat-menu>
+
+        <span class="flexExpand"></span>
+
+        <img alt="Foto" *ngIf="estaLogado"
+            [src]="login && login.foto ? 'data:image/jpeg;base64,' + login.foto : SEM_FOTO" class="mx-auto d-block"
+            style="max-height: 100px; max-width: 100px; border-radius: 50%;">
+
+        <button mat-icon-button [matMenuTriggerFor]="sistemaMenu">
+            <i class="fas fa-user"></i>
+            <span class="caret"></span>
+            <mat-icon>perm_identity</mat-icon>
+        </button>
+        <mat-menu #sistemaMenu="matMenu">
+            <button mat-menu-item *ngIf="!estaLogado">
+                <a [routerLink]="['/', 'login']">
+                    Efetuar login (Entrar)
+                </a>
+            </button>
+            <button mat-menu-item *ngIf="estaLogado">
+                <a (click)='logout()'>
+                    Efetuar logout (Sair)
+                </a>
+            </button>
+        </mat-menu>
+    </mat-toolbar-row>
+</mat-toolbar>

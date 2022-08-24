@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <span>
+                        <img src="assets/img/logo.png" style="width: 60px; height: 60px;">
+                    </span>
+                    <h5 class="card-title text-center">Recuperar Senha</h5>
+                    <form class="form-signin" [formGroup]="frm" (ngSubmit)="enviar($event)">
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>E-mail</mat-label>
+                                <input matInput placeholder="Digite seu e-mail" formControlName="email">
+                            </mat-form-field>
+                            <div class="text-danger" *ngIf="isEnviado && frm.controls.email.invalid">
+                                <div *ngIf="frm.controls.email.errors.required">
+                                    Campo obrigatório!
+                                </div>
+                                <div *ngIf="frm.controls.email.errors.email">
+                                    Valor inválido!
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+                        <button type="submit" class="btn btn-success btn-block">Enviar</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

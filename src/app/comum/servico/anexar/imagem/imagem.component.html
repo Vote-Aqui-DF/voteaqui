@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h3>Escolha o arquivo</h3>
+            <div class="form-group">
+                <input type="file" name="image" (change)="fileProgress($event)" [multiple]="multiplo" />
+            </div>
+            <div *ngIf="fileUploadProgress">
+                Carregando: {{ fileUploadProgress }}
+            </div>
+            <div class="image-preview mb-3" *ngIf="previewUrl">
+                <img [src]="previewUrl" class="img-fluid" />
+            </div>
+
+            <div class="mb-3" *ngIf="uploadedFilePath">
+                {{uploadedFilePath}}
+            </div>
+        </div>
+    </div>
+</div>
